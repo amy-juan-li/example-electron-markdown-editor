@@ -1,22 +1,21 @@
-import * as React from 'react'
-import { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import Editor from './editor'
+import Preview from './preview'
 import './app.css'
 
 const App: React.FC = () => {
-  const [count, setCount] = useState(0)
+  const [doc, setDoc] = useState<string>('# Hello, World!\n')
+
+  const handleDocChange = useCallback((newDoc: string) => {
+    setDoc(newDoc)
+  }, [])
+
   return (
     <div className='app'>
-      <header className='app-header'>
-        <p>Vite + React + TypeScript</p>
-        <p>
-          <button onClick={() => setCount((count) => count + 1)}>
-            Count: {count}
-          </button>
-        </p>
-      </header>
+      <Editor onChange={handleDocChange} initialDoc={doc} />
+      <Preview doc={doc} />
     </div>
   )
-
 }
 
 export default App

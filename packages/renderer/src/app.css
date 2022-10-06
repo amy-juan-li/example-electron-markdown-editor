@@ -1,7 +1,7 @@
 .app {
-   text-align: center;
+    background-color: transparent;
+    display: flex;
+  gap: 10px;
+  flex: 1;
 }
 
-button {
-  font-size: calc(10px + 2vim);
-}
