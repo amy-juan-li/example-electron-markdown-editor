@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import useCodeMirror from './use-codemirror'
 import './editor.css'
+import { EditorState } from '@codemirror/state'
 
 interface Props {
   initialDoc: string,
@@ -10,7 +11,7 @@ interface Props {
 const Editor: React.FC<Props> = (props) => {
   const { onChange, initialDoc } = props
   const handleChange = useCallback(
-    (state) => onChange(state.doc.toString()),
+    (state: EditorState) => onChange(state.doc.toString()),
     [onChange]
   )
   const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
@@ -21,6 +22,8 @@ const Editor: React.FC<Props> = (props) => {
   useEffect(() => {
     if (editorView) {
       // Do nothing for now
+    } else {
+      // loading editor
     }
   }, [editorView])
 
