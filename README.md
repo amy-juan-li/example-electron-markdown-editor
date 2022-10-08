@@ -1,9 +1,10 @@
 # Electron Markdown Editor - example
-----
-gif 
+<img width="1440" alt="Screenshot 2022-10-08 at 09 03 33" src="https://user-images.githubusercontent.com/93111441/194679834-c6259319-3fc8-47da-87f3-63c61210716d.png">
+
+<img width="1438" alt="Screenshot 2022-10-08 at 09 12 14" src="https://user-images.githubusercontent.com/93111441/194680529-edb521a4-2f6f-4a91-a450-b2ca26f14ebb.gif"> 
 
 ## Tech Stack
----
+
 - Electron: A framework for building cross-platform desktop apps using HTML, JS, and CSS
 - Vite: A fast build tool
 - React: A library for building UI
@@ -12,133 +13,40 @@ gif
 - Remark:An extensible Markdown processor
 
 ## Get started
---- 
+
 ```bash
 npm i 
 npm run watch
 ```
 
-## CICD
----
-### Continuous Integration
-
-- The configured workflow will check the types for each push and PR.
-- The configured workflow will check the code style for each push and PR.
-- **Automatic tests**
-  used [Vitest ![Vitest version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vitest?label=%20&color=yellow)][vitest]
-  -- A blazing fast test framework powered by Vite.
-  - Unit tests are placed within each package and are ran separately.
-  - End-to-end tests are placed in the root [`tests`](tests) directory and use [playwright].
-
-### Continuous delivery
-
-- Each time you push changes to the `main` branch, the [`release`](.github/workflows/release.yml) workflow starts, which
-  creates a release draft.
-  - The version is automatically set based on the current date in the format `yy.mm.dd-minutes`.
-  - Notes are automatically generated and added to the release draft.
-  - Code signing supported. See [`compile` job in the `release` workflow](.github/workflows/release.yml).
-- **Auto-update is supported**. After the release is published, all client applications will download the new version
-  and install updates silently.
-
-
-The entire source code of the project is divided into three modules (packages) that are each bundled independently:
-
-- [`packages/renderer`](packages/renderer). Responsible for the contents of the application window. In fact, it is a
-  regular web application. In developer mode, you can even open it in a browser. The development and build process is
-  the same as for classic web applications. Access to low-level API electrons or Node.js is done through the _preload_
-  layer.
-- [`packages/preload`](packages/preload). Acts as an intermediate bridge between the _renderer_ process and the API
-  exposed by electron and Node.js. Runs in an _isolated browser context_, but has direct access to the full Node.js
-  functionality.
-  See [Checklist: Security Recommendations](https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content)
-  .
-- [`packages/main`](packages/main)
-  Electron [**main script**](https://www.electronjs.org/docs/tutorial/quick-start#create-the-main-script-file). This is
-  the main process that powers the application. It manages creating and handling the spawned BrowserWindow, setting and
-  enforcing secure permissions and request handlers. You can also configure it to do much more as per your need, such
-  as: logging, reporting statistics and health status among others.
-
-## Project Structure
----
-The entire source code of the project is divided into three modules (packages) that are each bundled independently:
-
-- [`packages/renderer`](packages/renderer). Responsible for the contents of the application window. In fact, it is a
-  regular web application. In developer mode, you can even open it in a browser. The development and build process is
-  the same as for classic web applications. Access to low-level API electrons or Node.js is done through the _preload_
-  layer.
-- [`packages/preload`](packages/preload). Acts as an intermediate bridge between the _renderer_ process and the API
-  exposed by electron and Node.js. Runs in an _isolated browser context_, but has direct access to the full Node.js
-  functionality.
-  See [Checklist: Security Recommendations](https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content)
-  .
-- [`packages/main`](packages/main)
-  Electron [**main script**](https://www.electronjs.org/docs/tutorial/quick-start#create-the-main-script-file). This is
-  the main process that powers the application. It manages creating and handling the spawned BrowserWindow, setting and
-  enforcing secure permissions and request handlers. You can also configure it to do much more as per your need, such
-  as: logging, reporting statistics and health status among others.
+## How it works
+### Project Structure
+The structure of this template is very similar to the structure of a monorepo.  
+**packages/main**: Electron main script.  
+**packages/preload**: Used in BrowserWindow.webPreferences.preload.   
+**packages/renderer**: Electron web page. 
 
 ### Build web resources
-
 The `main` and `preload` packages are built in [library mode](https://vitejs.dev/guide/build.html#library-mode) as it is
 simple javascript.
 The `renderer` package builds as a regular web app.
 
 ### Compile App
-
 The next step is to package a ready to distribute Electron app for macOS, Windows and Linux with "auto update" support
 out of the box.
-
-To do this, use [electron-builder]:
 
 - Using the npm script `compile`: This script is configured to compile the application as quickly as possible. It is not
   ready for distribution, it is compiled only for the current platform and is used for debugging.
 - Using GitHub Actions: The application is compiled for any platform and ready-to-distribute files are automatically
   added as a draft to the GitHub releases page.
-
-### Working with dependencies
-
-Because the `renderer` works and builds like a _regular web application_, you can only use dependencies that support the
-browser or compile to a browser-friendly format.
-
-This means that in the `renderer` you are free to use any frontend dependencies such as Vue, React, lodash, axios and so
-on.However, you _CANNNOT_ use any native Node.js APIs, such as, `systeminformation`. These APIs are _only_ available in
-a Node.js runtime environment and will cause your application to crash if used in the `renderer` layer. Instead, if you
-need access to Node.js runtime APIs in your frontend, export a function form the `preload` package.
-
-All dependencies that require Node.js api can be used in
-the [`preload` script](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts).
-
-Here is an example. Let's say you need to read some data from the file system or database in the renderer.
-
-In the preload context, create a function that reads and returns data. To make the function announced in the preload
-available in the render, you usually need to call
-the [`electron.contextBridge.exposeInMainWorld`](https://www.electronjs.org/ru/docs/latest/api/context-bridge). However,
-this template uses the [unplugin-auto-expose](https://github.com/cawa-93/unplugin-auto-expose) plugin, so you just need
-to export the method from the preload. The `exposeInMainWorld` will be called automatically.
-
-```ts
-// preload/index.ts
-import {writeFile} from 'fs'
-
-// Everything you exported from preload/index.ts may be called in renderer
-export function getData() {
-  return /* ... */
-}
+  
+```bash
+npm run compile
+# for mac user:
+open dist/mac/your-app-name.app
 ```
-
-Now you can import and call the method in renderer
-
-```ts
-// renderer/somewere.component.ts
-import {getData} from '#preload'
-const dataFromFS = getData()
-```
-
-[Read more about Security Considerations](https://www.electronjs.org/docs/tutorial/context-isolation#security-considerations)
-.
 
 ### Modes and Environment Variables
-
 All environment variables are set as part of the `import.meta`, so you can access them vie the following
 way: `import.meta.env`.
 
