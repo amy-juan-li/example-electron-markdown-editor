@@ -1,7 +1,10 @@
 # Electron Markdown Editor - example
-<img width="1440" alt="Screenshot 2022-10-08 at 09 03 33" src="https://user-images.githubusercontent.com/93111441/194679834-c6259319-3fc8-47da-87f3-63c61210716d.png">
-
+**Desktop app**
+<img width="1307" alt="Screenshot 2022-10-08 at 15 22 27" src="https://user-images.githubusercontent.com/93111441/194698408-2773823f-49a7-47d2-a9c7-75e303835486.png">
+**App Screenshot**
 <img width="1438" alt="Screenshot 2022-10-08 at 09 12 14" src="https://user-images.githubusercontent.com/93111441/194680529-edb521a4-2f6f-4a91-a450-b2ca26f14ebb.gif"> 
+**Codebase**
+<img width="1440" alt="Screenshot 2022-10-08 at 09 03 33" src="https://user-images.githubusercontent.com/93111441/194679834-c6259319-3fc8-47da-87f3-63c61210716d.png">
 
 ## Tech Stack  
 - [**Electron**](): A framework for building cross-platform desktop apps using HTML, JS, and CSS
