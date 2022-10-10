@@ -7,12 +7,12 @@
 <img width="1440" alt="Screenshot 2022-10-08 at 09 03 33" src="https://user-images.githubusercontent.com/93111441/194679834-c6259319-3fc8-47da-87f3-63c61210716d.png">
 
 ## Tech Stack  
-- [**Electron**](): A framework for building cross-platform desktop apps using HTML, JS, and CSS
-- [**Vite**](): A fast build tool
-- [**React**](): A library for building UI
-- [**TypeScript**](): A typed JavaScript
-- [**CodeMirror 6**]: An extensible code editor for the web
-- [**Remark**](): An extensible Markdown processor
+- [**Electron**](https://www.electronjs.org/): A framework for building cross-platform desktop apps using HTML, JS, and CSS
+- [**Vite**](https://vitejs.dev/): A fast build tool
+- [**React**](https://reactjs.org/): A library for building UI
+- [**TypeScript**](https://www.typescriptlang.org/): A typed JavaScript
+- [**CodeMirror 6**](https://codemirror.net/): An extensible code editor for the web
+- [**Remark**](https://github.com/remarkjs/remark): An extensible Markdown processor
 - [**React-Markdown**](https://github.com/remarkjs/react-markdown): React component to render markdown.
 - [**react-syntax-highlighter**](https://github.com/react-syntax-highlighter/react-syntax-highlighter): Syntax highlighting component for react with `prismjs` or `highlightjs` using inline styles 
 
